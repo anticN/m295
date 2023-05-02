@@ -47,7 +47,7 @@ app.get("/name", (req, res) => {
 })
 
 app.get("html", (req, res) => {
-
+    res.sendFile("index.html");
 })
 
 
