@@ -54,6 +54,32 @@ app.get("/image", (req, res) => {
     res.sendFile("/workspaces/m295/express_tasks/image.webp");
 })
 
+app.get("/teapot", (req, res) => {
+    res.sendStatus(418);
+})
+
+app.get("/user-agent", (req, res) => {
+    res.send(req.headers["user-agent"]);
+})
+
+app.get("/secret", (req, res) => {
+    res.sendStatus(403);
+})
+
+app.get("/xml", (req, res) => {
+    res.sendFile("/workspaces/m295/express_tasks/test.xml");
+})
+
+app.get("/me", (req, res) => {
+    let me = {
+        Vorname: "Nikola",
+        Nachname: "Antic",
+        Alter: 17,
+        Wohnort: "Zürich",
+        Augenfarbe: "Braun"
+    }
+    res.send(me);
+})
 
 app.listen(port, () => {
     console.log(`Server gestartet. Port: ${port}`)
