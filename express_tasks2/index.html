@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const form = document.getElementById("delete-name-form");
+            form.addEventListener("submit", () => {
+                const formData = new FormData(form);
+                console.log(formData);
+                fetch("http://localhost:3000/delname", {method: "DELETE", body: formData});
+                event.preventDefault();
+            });
+        })
+    </script>
+</head>
+<body>
+    <h1>POST FORMULAR</h1>
+    <form method="POST" action="/names">
+        <label>Name:</label>
+        <input type="text" id="name" name="name">
+        <button type="submit">Confirm</button>
+    </form>
+    <br>
+    <h1>DELETE FORMULAR</h1>
+    <form id="delete-name-form" action="/delname">
+        <label>Zu löschender Name</label>
+        <input type="text" name="name" id="name-input">
+        <button type="submit">Löschen</button>
+    </form>
+</body>
+</html>
