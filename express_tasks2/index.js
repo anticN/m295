@@ -32,8 +32,14 @@ app.delete("/delname", multer().none(), (req, res) => {
     names = names.filter((n) => n !== req.body.name);
     console.log(req.body.name);
     console.log(names);
-    res.send(req.body.name);
+    res.sendStatus(204);
 })
+
+app.get("/chuck", async (req, res) => {
+    await fetch("https://api.chucknorris.io/jokes/random", {method: "GET"})
+    .then(joke => joke.json())
+    .then(jsonJoke => res.send(jsonJoke.value.replace("Chuck Norris", req.query.name)))
+}); 
 
 app.listen(port, () => {
     console.log(`Server gestartet auf Port: ${port}`);
