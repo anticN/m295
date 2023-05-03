@@ -46,11 +46,15 @@ app.get("/name", (req, res) => {
     res.send(randomFunc(names));
 })
 
-app.get("html", (req, res) => {
-    res.sendFile("index.html");
+app.get("/html", (req, res) => {
+    res.sendFile("/workspaces/m295/express_tasks/index.html");
+})
+
+app.get("/image", (req, res) => {
+    res.sendFile("/workspaces/m295/express_tasks/image.webp");
 })
 
 
 app.listen(port, () => {
-    console.log("Server gestartet.")
+    console.log(`Server gestartet. Port: ${port}`)
 })
