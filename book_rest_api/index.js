@@ -82,6 +82,17 @@ app.post("/books", (req, res) => {
     res.send(findAll());
 })
 
+app.put("/books/:isbn", (req, res) => {
+    const replaceBook = {
+        isbn: req.params.isbn,
+        title: "Miros Adventures",
+        year: 2022,
+        author: "Mirooo"
+    }
+    replace(replaceBook)
+    res.send(findByISBN(req.params.isbn));
+})
+
 app.delete("/books/:isbn", (req, res) => {
     remove(req.params.isbn)
     res.sendStatus(204);
