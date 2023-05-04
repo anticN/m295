@@ -143,7 +143,7 @@ function insertLend(lend){
     lends = [...lends, lend];
 }
 
-function updateLend(lend) {
+function replaceLend(lend) {
     lends = lends.map((l) => l.id === lend.id ? lend : l);
 }
 
@@ -167,6 +167,18 @@ app.post("/lends", (req, res) => {
     }
     insertLend(newLend);
     res.send(newLend);
+})
+
+app.patch("/lends/:id", (req, res) => {
+    const updateLend = {
+        id: req.params.id,
+        customer_id: req.query.customer_id,
+        isbn: "4",
+        borrowed_at: new Date().toISOString(),
+        returned_at: "" 
+    }
+    replaceLend(updateLend)
+    res.send(findByLendID(req.params.id));
 })
 
 //listener
