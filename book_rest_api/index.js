@@ -147,6 +147,14 @@ function replaceLend(lend) {
     lends = lends.map((l) => l.id === lend.id ? lend : l);
 }
 
+function checkBook(lendsToCheck) {
+    for(let i = 0; i < lendsToCheck.length; i++){
+        if(lendsToCheck[i].id){
+            
+        }
+    }
+}
+
 
 //lends ressource
 app.get("/lends", (req, res) => {
