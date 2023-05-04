@@ -59,6 +59,8 @@ let lends = [
     }    
 ]
 
+app.use(express.json());
+
 //book functions
 function findByISBN(isbn) {
     return buecher.find((book) => book.isbn === isbn);
@@ -86,26 +88,6 @@ function replace(book) {
 function remove(isbn) {
     buecher = buecher.filter((b) => b.isbn !== isbn);
 }
-
-//lend functions
-function allLends() {
-    return lends;
-}
-
-function findByLendID(id) {
-    return lends.find((lend) => lend.id === id);
-}
-
-function newLend(lend){
-    lends = [...lends, lend];
-}
-
-function updateLend(lend) {
-    lends = lends.map((l) => l.id === lend.id ? lend : l);
-}
-
-app.use(express.json());
-
 
 //books ressource
 app.get("/book", (req, res) => {
@@ -148,6 +130,24 @@ app.delete("/books/:isbn", (req, res) => {
 })
 
 
+//lend functions
+function allLends() {
+    return lends;
+}
+
+function findByLendID(id) {
+    return lends.find((lend) => lend.id === id);
+}
+
+function insertLend(lend){
+    lends = [...lends, lend];
+}
+
+function updateLend(lend) {
+    lends = lends.map((l) => l.id === lend.id ? lend : l);
+}
+
+
 //lends ressource
 app.get("/lends", (req, res) => {
     res.send(allLends());
@@ -155,6 +155,18 @@ app.get("/lends", (req, res) => {
 
 app.get("/lends/:id", (req, res) => {
     res.send(findByLendID(req.params.id));
+})
+
+app.post("/lends", (req, res) => {
+    const newLend = {
+        id: lends.length + 1,
+        customer_id: req.query.customer_id,
+        isbn: req.query.isbn,
+        borrowed_at: new Date().toISOString(),
+        returned_at: "" 
+    }
+    insertLend(newLend);
+    res.send(newLend);
 })
 
 //listener
