@@ -39,7 +39,7 @@ function findAll(){
 }
 
 function insert(book) {
-    buecher = {...buecher, book};
+    buecher = [...buecher, book];
 }
 
 function replace(book) {
@@ -64,6 +64,21 @@ app.get("/book", (req, res) => {
 });
 
 app.get("/books", (req, res) => {
+    res.send(findAll());
+})
+
+app.get("/books/:isbn", (req, res) => {
+    res.send(findByISBN(req.params.isbn));
+})
+
+app.post("/books", (req, res) => {
+    const newBook = {
+        isbn: "15",
+        title: "Lambos Adventures",
+        year: 2023,
+        author: "Lambooo"
+    }
+    insert(newBook);
     res.send(findAll());
 })
 
