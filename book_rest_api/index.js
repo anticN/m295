@@ -1,35 +1,65 @@
 import express, { json, response } from "express";
-import fs from "fs";
-//import * as books from "./books.json" assert { type: 'json' }
 
 const app = express();
 const port = 3000;
 
 let buecher = [{
-    "isbn": "1",
-    "title": "Der kleine Prinz",
-    "year": 1943,
-    "author": "Antoine de Saint-Exupéry"
+    isbn: "1",
+    title: "Der kleine Prinz",
+    year: 1943,
+    author: "Antoine de Saint-Exupéry"
   },
   {
-    "isbn": "2",
-    "title": "Die Verwandlung",
-    "year": 1915,
-    "author": "Franz Kafka"
+    isbn: "2",
+    title: "Die Verwandlung",
+    year: 1915,
+    author: "Franz Kafka"
   },
   {
-    "isbn": "3",
-    "title": "Der Prozess",
-    "year": 1925,
-    "author": "Franz Kafka"
+    isbn: "3",
+    title: "Der Prozess",
+    year: 1925,
+    author: "Franz Kafka"
   },
   {
-    "isbn": "4",
-    "title": "Der Prozess",
-    "year": 1925,
-    "author": "Franz Kafka"
+    isbn: "4",
+    title: "Der Prozess",
+    year: 1925,
+    author: "Franz Kafka"
   }];
 
+let lends = [
+    {
+        id: "1",
+        customer_id: "1",
+        isbn: "1",
+        borrowed_at: new Date().toISOString(),
+        returned_at: "2023-05-06T16:10:00.000Z"
+    },
+    {
+        id: "2",
+        customer_id: "2",
+        isbn: "3",
+        borrowed_at: new Date().toISOString(),
+        returned_at: "2023-05-06T18:10:00.000Z"
+    },
+    {
+        id: "3",
+        customer_id: "3",
+        isbn: "2",
+        borrowed_at: new Date().toISOString(),
+        returned_at: ""
+    },
+    {
+        id: "4",
+        customer_id: "6",
+        isbn: "4",
+        borrowed_at: new Date().toISOString(),
+        returned_at: "2023-05-07T16:10:00.000Z"
+    }    
+]
+
+//book functions
 function findByISBN(isbn) {
     return buecher.find((book) => book.isbn === isbn);
 }
@@ -57,8 +87,27 @@ function remove(isbn) {
     buecher = buecher.filter((b) => b.isbn !== isbn);
 }
 
+//lend functions
+function allLends() {
+    return lends;
+}
+
+function findByLendID(id) {
+    return lends.find((lend) => lend.id === id);
+}
+
+function newLend(lend){
+    lends = [...lends, lend];
+}
+
+function updateLend(lend) {
+    lends = lends.map((l) => l.id === lend.id ? lend : l);
+}
+
 app.use(express.json());
 
+
+//books ressource
 app.get("/book", (req, res) => {
     res.send("Here is the library.");
 });
@@ -73,7 +122,7 @@ app.get("/books/:isbn", (req, res) => {
 
 app.post("/books", (req, res) => {
     const newBook = {
-        isbn: "15",
+        isbn: "5",
         title: "Lambos Adventures",
         year: 2023,
         author: "Lambooo"
@@ -98,6 +147,17 @@ app.delete("/books/:isbn", (req, res) => {
     res.sendStatus(204);
 })
 
+
+//lends ressource
+app.get("/lends", (req, res) => {
+    res.send(allLends());
+})
+
+app.get("/lends/:id", (req, res) => {
+    res.send(findByLendID(req.params.id));
+})
+
+//listener
 app.listen(port, () => {
     console.log(`Server läuft auf port: ${port}`);
 });
